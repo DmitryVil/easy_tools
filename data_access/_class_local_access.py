@@ -1,9 +1,9 @@
 import os
-from data_access._class_abstract_access import AbstractAccess
+from data_access._class_abstract_access import AbstractHandler
 import traceback
 
 
-class LocalAccess(AbstractAccess):
+class LocalHandler(AbstractHandler):
 
     def __init__(self, link, work_dir=None):
         super().__init__(link, work_dir)

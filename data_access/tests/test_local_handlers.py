@@ -6,7 +6,7 @@ import pandas as pd
 folder = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 sys.path.append(folder)
 
-from data_access._class_local_access import LocalAccess
+from data_access._class_local_access import LocalHandler
 
 
 def test_local_access_link_recognition():
@@ -21,12 +21,12 @@ def test_local_access_link_recognition():
     # Create the file
     with open(full_link, 'w') as file:
         file.write('it is a file for testing')
-    handler = LocalAccess(full_link, work_dir)
+    handler = LocalHandler(full_link, work_dir)
 
     # Check with not workable link
     not_correct_file_name = ''
     full_link = work_dir / not_correct_file_name
-    handler = LocalAccess(full_link, work_dir)
+    handler = LocalHandler(full_link, work_dir)
 
 
 def test_local_feather_handler():
@@ -39,13 +39,13 @@ def test_local_feather_handler():
     full_link = work_dir / file_name
     data_frame_to_file = pd.DataFrame()
 
-    local_handler = LocalAccess(full_link)
+    local_handler = LocalHandler(full_link)
     local_handler.write_data(data_frame_to_file)
     assert os.path.isfile(full_link)
 
     del local_handler
 
-    local_handler = LocalAccess(full_link)
+    local_handler = LocalHandler(full_link)
     data_frame_from_file = local_handler.read_data()
 
     assert data_frame_from_file.to_dict() == {'index': {}}
@@ -68,12 +68,12 @@ def test_local_json_handler():
         'key_3': 'value_3',
         'key_4': ['value_1', 'value_2']
     }
-    local_handler = LocalAccess(full_link)
+    local_handler = LocalHandler(full_link)
     local_handler.write_data(data_to_put_to_file)
     assert os.path.isfile(full_link)
     del local_handler
 
-    local_handler = LocalAccess(full_link)
+    local_handler = LocalHandler(full_link)
     data_got_from_file = local_handler.read_data()
     assert data_to_put_to_file == data_got_from_file
     os.remove(full_link)
@@ -93,12 +93,12 @@ def test_local_toml_handler():
         'key_2': 'value_2',
         'key_3': 'value_3',
     }
-    local_handler = LocalAccess(full_link)
+    local_handler = LocalHandler(full_link)
     local_handler.write_data(data_to_put_to_file)
     assert os.path.isfile(full_link)
     del local_handler
 
-    local_handler = LocalAccess(full_link)
+    local_handler = LocalHandler(full_link)
     data_got_from_file = local_handler.read_data()
     assert data_to_put_to_file == data_got_from_file
     os.remove(full_link)
@@ -114,12 +114,12 @@ def test_local_unknown_file_extension():
     file_name = 'data.ext'
     full_link = work_dir / file_name
     data_to_put_to_file = 'Data'
-    local_handler = LocalAccess(full_link)
+    local_handler = LocalHandler(full_link)
     local_handler.write_data(data_to_put_to_file)
     assert os.path.isfile(full_link)
     del local_handler
 
-    local_handler = LocalAccess(full_link)
+    local_handler = LocalHandler(full_link)
     assert local_handler.local_file_handler.__name__ == 'Txt'
     data_got_from_file = local_handler.read_data()
     assert data_to_put_to_file == data_got_from_file

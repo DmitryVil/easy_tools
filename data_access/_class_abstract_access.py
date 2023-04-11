@@ -3,7 +3,7 @@ from pathlib import Path
 from data_access.handlers.__class_universal_handler import UniversalFileHandler
 
 
-class AbstractAccess(ABC):
+class AbstractHandler(ABC):
     # It is abstract class for data access
     def __init__(self, link, work_dir=None):
         self.link = Path(link)

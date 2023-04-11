@@ -1,7 +1,7 @@
 """
     It is a public API for data access
 """
-from data_access._class_universal_access import UniversalAccess
+from data_access._class_universal_access import UniversalHandler
 
 
 def read_data(link, work_dir=None):
@@ -18,7 +18,7 @@ def read_data(link, work_dir=None):
     """
     error, data = None, None
     try:
-        handler = UniversalAccess(link, work_dir=work_dir).handler
+        handler = UniversalHandler(link, work_dir=work_dir).handler
         data = handler.read_data()
     except Exception as err:
         error = err
@@ -40,7 +40,7 @@ def put_data(link, data, work_dir=None):
     """
     error = None
     try:
-        handler = UniversalAccess(link, work_dir=work_dir).handler
+        handler = UniversalHandler(link, work_dir=work_dir).handler
         handler.write_data(data)
     except Exception as err:
         error = err

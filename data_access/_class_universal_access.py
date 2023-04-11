@@ -1,8 +1,8 @@
-from data_access._class_local_access import LocalAccess
+from data_access._class_local_access import LocalHandler
 
 
-class UniversalAccess:
+class UniversalHandler:
 
     def __init__(self, link, work_dir=None):
-        self.handler = LocalAccess(link, work_dir=work_dir)
+        self.handler = LocalHandler(link, work_dir=work_dir)
 
