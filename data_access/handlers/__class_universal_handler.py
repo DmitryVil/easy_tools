@@ -22,7 +22,7 @@ class UniversalFileHandler:
     def __init__(self, file_type):
         self.file_type = file_type
 
-    def get_file_handler(self):
+    def get_handler(self):
         # If handler class is not recognized, assuming it is the class Txt
         return self.file_handler_pointer.get(self.file_type, Txt)
 

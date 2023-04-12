@@ -10,7 +10,7 @@ class AbstractHandler(ABC):
         self.link_folder = self.link.parent
         self.work_dir = Path(work_dir) if work_dir else None
         self.file_type = self.file_type_recognition()
-        self.local_file_handler = UniversalFileHandler(self.file_type).get_file_handler()
+        self.local_file_handler = UniversalFileHandler(self.file_type).get_handler()
 
     @abstractmethod
     def read_data(self):
