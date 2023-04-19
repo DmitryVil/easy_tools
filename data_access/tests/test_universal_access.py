@@ -6,7 +6,7 @@ import pandas as pd
 folder = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 sys.path.append(folder)
 
-from data_access import universal_data_access
+from data_access import universal_access
 
 
 def test_local_access_link_txt_file():
@@ -24,11 +24,11 @@ def test_local_access_link_txt_file():
         full_link.unlink()
     assert not os.path.exists(full_link)
 
-    error, data = universal_data_access.put_data(full_link, data_to_file, work_dir=work_dir)
+    error, data = universal_access.put_data(full_link, data_to_file, work_dir=work_dir)
     assert error is None
     assert data_to_file
 
-    error, data_from_file = universal_data_access.read_data(full_link, work_dir=work_dir)
+    error, data_from_file = universal_access.read_data(full_link, work_dir=work_dir)
     assert error is None
     assert data_to_file == data_from_file
 
@@ -55,11 +55,11 @@ def test_local_access_link_feather_file():
         'second_column': [3, 4]
     })
 
-    error, data = universal_data_access.put_data(full_link, data_to_file, work_dir=work_dir)
+    error, data = universal_access.put_data(full_link, data_to_file, work_dir=work_dir)
     assert error is None
     assert not data_to_file.empty
 
-    error, data_from_file = universal_data_access.read_data(full_link, work_dir=work_dir)
+    error, data_from_file = universal_access.read_data(full_link, work_dir=work_dir)
     assert error is None
     assert data_to_file.__class__ == data_from_file.__class__
     del data_from_file['index']     # removing column 'index'
@@ -86,7 +86,7 @@ def test_read_non_existing_file():
         'second_column': [3, 4]
     })
 
-    error, data_from_file = universal_data_access.read_data(full_link, work_dir=work_dir)
+    error, data_from_file = universal_access.read_data(full_link, work_dir=work_dir)
     assert error is not None
 
     assert not os.path.exists(full_link)
