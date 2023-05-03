@@ -62,7 +62,8 @@ def test_local_access_link_feather_file():
     error, data_from_file = universal_access.read_data(full_link, work_dir=work_dir)
     assert error is None
     assert data_to_file.__class__ == data_from_file.__class__
-    del data_from_file['index']     # removing column 'index'
+    if 'index' in data_from_file:
+        del data_from_file['index']     # removing column 'index'
     assert data_to_file.to_dict() == data_to_file.to_dict()
 
     # Delete file

@@ -11,5 +11,9 @@ class Feather(AbstractHandler):
 
     def put(self, data_frame: pd.DataFrame = pd.DataFrame()):
         # Deleting all indexes - feather format doesn't support them
-        return data_frame.reset_index().to_feather(self.link)
+        if data_frame.equals(pd.DataFrame()):
+            data_frame.reset_index().to_feather(self.link)
+        else:
+            data_frame.reset_index(drop=True).to_feather(self.link)
+        return data_frame
     
