@@ -80,6 +80,32 @@ def test_local_json_handler():
     assert not os.path.isfile(full_link)
 
 
+def test_local_yaml_handler():
+    work_dir = Path(os.path.abspath(os.path.dirname(__file__))) / 'work_dir'
+    if not os.path.exists(work_dir):
+        os.makedirs(work_dir)
+    assert os.path.exists(work_dir)
+
+    file_name = 'data.yaml'
+    full_link = work_dir / file_name
+    data_to_put_to_file = {
+        'key_1': 'value_1',
+        'key_2': 'value_2',
+        'key_3': 'value_3',
+        'key_4': ['value_1', 'value_2']
+    }
+    local_handler = UniversalHandler(full_link)
+    local_handler.write_data(data_to_put_to_file)
+    assert os.path.isfile(full_link)
+    del local_handler
+
+    local_handler = UniversalHandler(full_link)
+    data_got_from_file = local_handler.read_data()
+    assert data_to_put_to_file == data_got_from_file
+    os.remove(full_link)
+    assert not os.path.isfile(full_link)
+
+
 def test_local_toml_handler():
     work_dir = Path(os.path.abspath(os.path.dirname(__file__))) / 'work_dir'
     if not os.path.exists(work_dir):
@@ -93,6 +119,53 @@ def test_local_toml_handler():
         'key_2': 'value_2',
         'key_3': 'value_3',
     }
+    local_handler = UniversalHandler(full_link)
+    local_handler.write_data(data_to_put_to_file)
+    assert os.path.isfile(full_link)
+    del local_handler
+
+    local_handler = UniversalHandler(full_link)
+    data_got_from_file = local_handler.read_data()
+    assert data_to_put_to_file == data_got_from_file
+    os.remove(full_link)
+    assert not os.path.isfile(full_link)
+
+
+def test_local_pickle_handler():
+    work_dir = Path(os.path.abspath(os.path.dirname(__file__))) / 'work_dir'
+    if not os.path.exists(work_dir):
+        os.makedirs(work_dir)
+    assert os.path.exists(work_dir)
+
+    file_name = 'data.pkl'
+    full_link = work_dir / file_name
+    data_to_put_to_file = {
+        'key_1': ['value_1', 'value_2'],
+        'key_2': 'value_2',
+        'key_3': 'value_3',
+    }
+    local_handler = UniversalHandler(full_link)
+    local_handler.write_data(data_to_put_to_file)
+    assert os.path.isfile(full_link)
+    del local_handler
+
+    local_handler = UniversalHandler(full_link)
+    data_got_from_file = local_handler.read_data()
+    assert data_to_put_to_file == data_got_from_file
+    os.remove(full_link)
+    assert not os.path.isfile(full_link)
+
+
+def test_local_pickle_handler_None_value():
+    work_dir = Path(os.path.abspath(os.path.dirname(__file__))) / 'work_dir'
+    if not os.path.exists(work_dir):
+        os.makedirs(work_dir)
+    assert os.path.exists(work_dir)
+
+    file_name = 'data.pkl'
+    full_link = work_dir / file_name
+    data_to_put_to_file = None
+
     local_handler = UniversalHandler(full_link)
     local_handler.write_data(data_to_put_to_file)
     assert os.path.isfile(full_link)

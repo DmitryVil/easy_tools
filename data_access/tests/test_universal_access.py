@@ -50,6 +50,7 @@ def test_local_access_link_feather_file():
     if full_link.is_file():
         full_link.unlink()
     assert not os.path.exists(full_link)
+
     data_to_file = pd.DataFrame({
         'first_column': [1, 2],
         'second_column': [3, 4]
@@ -78,17 +79,15 @@ def test_read_non_existing_file():
     # Check with not workable link
     correct_file_name = 'aaaBBB.feather'
     full_link = work_dir / correct_file_name
+
     # Delete file
     if full_link.is_file():
         full_link.unlink()
     assert not os.path.exists(full_link)
-    data_to_file = pd.DataFrame({
-        'first_column': [1, 2],
-        'second_column': [3, 4]
-    })
 
     error, data_from_file = universal_access.read_data(full_link, work_dir=work_dir)
     assert error is not None
+    assert error.strerror == 'No such file or directory'
 
     assert not os.path.exists(full_link)
 
